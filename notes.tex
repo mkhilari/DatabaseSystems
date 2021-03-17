@@ -29,4 +29,21 @@
         \item More efficient data maintenance 
     \end{itemize}
 
+    \subsection{SQL Create Table}
+    \begin{verbatim}
+        CREATE TABLE Song (
+            SongID INT, 
+            AlbumID INT NOT NULL, 
+            SongName VARCHAR(40) NOT NULL, 
+            PRIMARY KEY (SongID)
+        )
+
+        CREATE TABLE Album (
+            AlbumID INT, 
+            AlbumName VARCHAR(40) NOT NULL, 
+            ReleaseDate DATETIME NOT NULL, 
+            PRIMARY KEY (AlbumID)
+        )
+    \end{verbatim}
+
 \end{document}
