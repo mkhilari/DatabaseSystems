@@ -184,6 +184,7 @@
     \end{itemize}
     \begin{verbatim}
         Employee(PK EmployeeID, FirstName NOT NULL, LastName NOT NULL)
+        
         Shop(PK ShopID, FK ManagerID NOT NULL, Location NOT NULL)
     \end{verbatim}
 
@@ -198,6 +199,7 @@
     \end{itemize}
     \begin{verbatim}
         Employee(PK EmployeeID, FirstName NOT NULL, LastName NOT NULL)
+
         Shop(PK ShopID, Location)
 
         EmployeeWorksShop(PFK EmployeeID, PFK ShopID, StartDate)
