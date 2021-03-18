@@ -1,4 +1,4 @@
-\documentclass[12pt, a4paper]{article} 
+\documentclass[11pt, a4paper]{article} 
 
 % Packages 
 \usepackage[utf8]{inputenc}
@@ -29,21 +29,178 @@
         \item More efficient data maintenance 
     \end{itemize}
 
-    \subsection{SQL Create Table}
-    \begin{verbatim}
-        CREATE TABLE Song (
-            SongID INT, 
-            AlbumID INT NOT NULL, 
-            SongName VARCHAR(40) NOT NULL, 
-            PRIMARY KEY (SongID)
-        )
+    \subsection{Data Dictionary (Metadata)}
+    A data dictionary for a relation (table) is metadata about the attributes 
+    (columns) of the relation (table). 
+    \begin{center}
+        \begin{tabular}{ |c|c|c|c| } 
+         \hline
+         Column Name & Not Null? & Data Type & Range \\ 
+         \hline
+        \end{tabular}
+    \end{center}
+    
+    \subsection{Database Management System (DBMS)}
+    A DBMS (such as MySQL) enables users to create, access, and update 
+    databases. 
 
-        CREATE TABLE Album (
-            AlbumID INT, 
-            AlbumName VARCHAR(40) NOT NULL, 
-            ReleaseDate DATETIME NOT NULL, 
-            PRIMARY KEY (AlbumID)
-        )
+    \subsection{Relational Databases}
+    \begin{itemize}
+        \item Set of relations / entity sets (tables) with entities (rows) and 
+        attributes (columns). 
+        \item Relation (table) has cardinality (number of rows) and degree / 
+        arity (number of columns). 
+        \item Relationships are logical links between tables. 
+    \end{itemize}
+
+    \subsection{Superkeys (SK)}
+    A SK is a set of columns with values that form a tuple that uniquely 
+    identifies a row. 
+    \begin{itemize}
+        \item (ID, FirstName, LastName)
+    \end{itemize}
+
+    \subsection{Candidate Keys (CK)}
+    A CK is a SK with no smaller SKs as subsets. 
+    \begin{itemize}
+        \item (ID)
+        \item (FirstName, LastName)
+    \end{itemize}
+
+    \subsection{Primary Keys (PK)}
+    The PK of a table is a chosen CK. All other CKs are alternate keys (AKs). 
+    \begin{itemize}
+        \item (ID)
+    \end{itemize}
+
+    \subsection{Foreign Keys (FK)}
+    A FK is a PK of another table used for a relationship. 
+    \begin{itemize}
+        \item (DogID)
+    \end{itemize}
+    
+
+
+    \section{Database Design}
+    Conceptual \rightarrow Logical \rightarrow Physical 
+
+    \subsection{Conceptual Design}
+    \begin{itemize}
+        \item Not database specific 
+        \item Entity Relationship (ER) model 
+    \end{itemize}
+
+    \subsection{Logical Design}
+    \begin{itemize}
+        \item Not database specific 
+        \item Relational model (table columns, data types) 
+    \end{itemize}
+
+    \subsection{Physical Design}
+    \begin{itemize}
+        \item Database specific 
+        \item Implementation details 
+    \end{itemize}
+
+
+
+    \section{Entity Relationship (ER) Models}
+    \subsection{Entities}
+    An entity is a uniquely identifiable object with attributes. 
+
+    \subsection{Entity Sets}
+    An entity set is a class of entities (same attributes). 
+
+    \subsection{Relationships}
+    A relationship is a logical link between entities. 
+
+    \subsection{Relationship Sets}
+    A relationship set is a logical link between entity sets. \\\\
+    A relationship set can have attributes. 
+
+    \subsection{ER Models}
+    \emph{Chen's Notation} \\\\ 
+
+    Employee with ID, FirstName, and LastName \\\\ 
+    \begin{itemize}
+        \item Entity Employee has attributes (ID, FirstName, LastName) 
+        \item (ID) is the PK. 
+    \end{itemize}
+
+    Employee with multivalued PhoneNum \\\\ 
+    \begin{itemize}
+        \item Multivalued (array) 
+    \end{itemize}
+
+    Employee with composite Address(Street, Suburb, State) \\\\ 
+    \begin{itemize}
+        \item Composite (structure) 
+    \end{itemize}
+
+    Employee with derived YearsWorked 
+    \begin{itemize}
+        \item Derived (can be determined using other attributes) 
+    \end{itemize}
+
+    Employee work(StartDate) Shop \\\\ 
+    \begin{itemize}
+        \item Employee has \textbf{zero or many} shops to work 
+        \item Shop has \textbf{one or many} employees 
+    \end{itemize}
+
+    Employee manage Shop \\\\ 
+    \begin{itemize}
+        \item Employee has \textbf{zero or many} shops to manage 
+        \item Shop has \textbf{exactly one} manager 
+    \end{itemize}
+
+    Person own Dog \\\\ 
+    \begin{itemize}
+        \item Person has \textbf{zero or many} dogs to own 
+        \item Dog has \textbf{zero or one} owner 
+    \end{itemize}
+
+    \subsection{Weak Entities}
+    A weak entity has a FK in its PK. It is in an \textbf{identifying 
+    relationship} with its owner. \\\\ 
+    \begin{itemize}
+        \item Weak entities have \textbf{exactly one} owner (strong entity). 
+        \item Weak entities are deleted when their owner is deleted. 
+    \end{itemize}
+    Strong entity Person(PersonID, Name) has weak entity Child(ChildName, Age) \\\\ 
+    \begin{itemize}
+        \item (PersonID, ChildName) form PK of Child 
+    \end{itemize}
+
+
+
+    \section{Relational Models}
+    \emph{Crow's Foot Notation} \\\\ 
+
+    Employee manage Shop \\\\ 
+    \begin{itemize}
+        \item Employee has \textbf{zero or many} shops to manage 
+        \item Shop has \textbf{exactly one} manager 
+    \end{itemize}
+    \begin{verbatim}
+        Employee(PK EmployeeID, FirstName NOT NULL, LastName NOT NULL)
+        Shop(PK ShopID, FK ManagerID NOT NULL, Location NOT NULL)
+    \end{verbatim}
+
+    \subsection{Many to Many Relationships (Associative Tables)}
+    A many to many relationship is represented by an associative table. \\\\ 
+    An associative table has a PK formed by FKs of tables in the many to many 
+    relationship. \\\\ 
+    Employee work(StartDate) Shop \\\\ 
+    \begin{itemize}
+        \item Employee has \textbf{zero or many} shops to work 
+        \item Shop has \textbf{one or many} employees 
+    \end{itemize}
+    \begin{verbatim}
+        Employee(PK EmployeeID, FirstName NOT NULL, LastName NOT NULL)
+        Shop(PK ShopID, Location)
+
+        EmployeeWorksShop(PFK EmployeeID, PFK ShopID, StartDate)
     \end{verbatim}
 
 \end{document}
